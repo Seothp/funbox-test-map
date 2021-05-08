@@ -37,8 +37,6 @@ class YMap {
       draggable: true,
     });
     this.map.geoObjects.add(placemark, id);
-    // eslint-disable-next-line no-debugger
-    // debugger;
     return placemark;
   }
 
