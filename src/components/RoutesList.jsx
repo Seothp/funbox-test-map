@@ -40,6 +40,7 @@ function RoutesList({
       <form
         className="form"
         onSubmit={(e) => addRoute(e)}
+        data-testid="form"
       >
         <input
           className="input"
@@ -55,6 +56,7 @@ function RoutesList({
       {routes && routes.length > 0 && (
         <ul
           className="routes-list"
+          data-testid="routesList"
           onDrop={onDrop}
           onDragOver={onDragOver}
         >
