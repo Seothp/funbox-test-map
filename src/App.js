@@ -12,13 +12,8 @@ function newId() {
   lastId += 1;
   return lastId;
 }
-/*
-  dragndrop:
-    onmousedown -> remove el from dom, add el to body, make it absolute
-*/
 function App() {
   const [routes, setRoutes] = useState([]);
-  const [inputValue, setInputValue] = useState('');
   useEffect(() => {
     const initYMap = () => {
       YMap = new window.ymaps.Map('YMap', {
@@ -55,7 +50,7 @@ function App() {
       routes.map((route) => route.placemark.geometry.getCoordinates()),
     );
   };
-  const addRoute = (e) => {
+  const addRoute = (e, title) => {
     const id = newId();
     e.preventDefault();
     const placemark = new window.ymaps.GeoObject({
@@ -63,51 +58,32 @@ function App() {
         type: 'Point',
         coordinates: YMap.getCenter(),
       },
+      properties: {
+        balloonContent: title,
+      },
     }, {
       draggable: true,
     });
     YMap.geoObjects.add(placemark, id);
     placemark.events.add(['drag'], onPlacemarkDrag);
-    setRoutes([...routes, { title: inputValue, placemark, id }]);
+    setRoutes([...routes, { title, placemark, id }]);
   };
   const removeRoute = (id) => {
-    // eslint-disable-next-line no-debugger
-    // debugger;
     const routeToRemove = routes.find((r) => r.id === id);
     setRoutes(routes.filter((route) => route.id !== id));
     YMap.geoObjects.remove(routeToRemove.placemark);
   };
-  // const onRouteDrag = () => {
-
-  // };
-
   return (
     <div className="App">
-      <form onSubmit={addRoute}>
-        <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-        <button type="submit">
-          add
-        </button>
-      </form>
-      <RoutesList
-        routes={routes}
-        onRouteRemove={removeRoute}
-      />
-      {/* {routes && routes.length > 0 && (
-        <ul className="routes">
-          {routes.map((route) => (
-            <li className="route" key={route.id}>
-              <span className="route-title">
-                { route.title }
-              </span>
-              <button
-              type="button"
-              className="route-delete-btn" onClick={() => removeRoute(route.id)}>X</button>
-            </li>
-          ))}
-        </ul>
-      )} */}
-      <div className="" id="YMap" style={{ width: 900, height: 600 }} />
+      <div className="map-with-routes">
+        <RoutesList
+          routes={routes}
+          onRouteRemove={removeRoute}
+          setRoutes={setRoutes}
+          onAddRoute={addRoute}
+        />
+        <div className="map" id="YMap" />
+      </div>
     </div>
   );
 }
