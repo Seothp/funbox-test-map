@@ -40,13 +40,14 @@ function RoutesList({
       <form
         className="form"
         onSubmit={(e) => addRoute(e)}
-        data-testid="form"
+        data-testid="routesListForm"
       >
         <input
           className="input"
           type="text"
           value={inputValue}
           placeholder="Имя маршрута"
+          data-testid="routesListInput"
           onChange={(e) => setInputValue(e.target.value)}
         />
         <button className="add-btn" type="submit">
