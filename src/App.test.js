@@ -2,8 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import App from './App';
 
-import YMap from './ymaps';
-
 jest.mock('./ymaps');
 
 /**
@@ -33,7 +31,6 @@ test('route should be added correctly', () => {
   render(<App />);
   addRoutes(['route 1']);
   screen.getByText('route 1');
-  console.log(YMap.addPlacemark);
 });
 
 test('route should be removed correctly', () => {
