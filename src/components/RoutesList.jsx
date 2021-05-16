@@ -19,17 +19,18 @@ function RoutesList({
     e.dataTransfer.setData('routeId', id);
   };
   const onDrop = (e) => {
+    console.log(e);
     const id = Number(e.dataTransfer.getData('routeId'));
     const target = e.target.closest('.route');
     if (target === null) return;
     const { offsetTop, offsetHeight } = target;
-    const { clientY } = e;
+    const { pageY } = e;
     let idx = Number(target.getAttribute('idx'));
-    const isBottomOfTarget = clientY - offsetTop < offsetHeight / 2;
+    const isTopOfTarget = pageY - offsetTop < offsetHeight / 2;
     const routeToMove = routes.find((r) => r.id === id);
     const indexToMove = routes.findIndex((r) => r.id === id);
-    if (!isBottomOfTarget && indexToMove > idx) idx += 1;
-    if (isBottomOfTarget && indexToMove < idx) idx -= 1;
+    if (!isTopOfTarget && indexToMove > idx) idx += 1;
+    if (isTopOfTarget && indexToMove < idx) idx -= 1;
     const newRoutes = [...routes];
     newRoutes.splice(indexToMove, 1);
     newRoutes.splice(idx, 0, routeToMove);
@@ -70,7 +71,7 @@ function RoutesList({
               draggable
               idx={String(idx)}
             >
-              <span className="route-title">
+              <span className="route-title" data-testid="routeTitle">
                 { route.title }
               </span>
               <button
