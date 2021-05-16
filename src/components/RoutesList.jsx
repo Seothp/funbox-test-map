@@ -19,7 +19,6 @@ function RoutesList({
     e.dataTransfer.setData('routeId', id);
   };
   const onDrop = (e) => {
-    console.log(e);
     const id = Number(e.dataTransfer.getData('routeId'));
     const target = e.target.closest('.route');
     if (target === null) return;
