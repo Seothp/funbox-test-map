@@ -30,6 +30,7 @@ context('DRAG AND DROP', () => {
 
   it('should remove route', () => {
     cy.contains('route-0').parent().children(SELECTORS.deleteRouteBtn).click();
+    cy.contains('route-0').should('not.exist');
   });
 
   it('should correctly move from top to bottom', () => {
