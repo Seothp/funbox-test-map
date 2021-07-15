@@ -1,10 +1,16 @@
 /// <reference types="cypress" />
 import DataTransfer from '../support/dataTransfer';
 
+const SELECTORS = {
+  routesInput: 'input[data-testid="routesListInput"]',
+  routesListForm: 'form[data-testid="routesListForm"]',
+  deleteRouteBtn: 'button[aria-label="Delete"]',
+};
+
 function addRoutes(length) {
   Array.from({ length }).forEach((_, idx) => {
-    cy.get('input[data-testid="routesListInput"]').type(`route-${idx}`);
-    cy.get('form[data-testid="routesListForm"]').submit();
+    cy.get(SELECTORS.routesInput).type(`route-${idx}`);
+    cy.get(SELECTORS.routesListForm).submit();
   });
 }
 context('DRAG AND DROP', () => {
@@ -17,7 +23,7 @@ context('DRAG AND DROP', () => {
   });
 
   it('should remove route', () => {
-    cy.contains('route-0').parent().children('button[aria-label="Delete"]').click();
+    cy.contains('route-0').parent().children(SELECTORS.deleteRouteBtn).click();
   });
 
   it('should correctly move from top to bottom', () => {
