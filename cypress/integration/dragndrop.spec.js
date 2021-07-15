@@ -19,7 +19,13 @@ context('DRAG AND DROP', () => {
   });
 
   it('should add routes', () => {
+    const expectedRoutes = Array.from({ length: 7 }, (_, idx) => `route-${idx}`);
     addRoutes(7);
+    cy.get('ul').should((listNode) => {
+      const routes = listNode.children();
+      const routesList = Array.from({ length: routes.length }, (_, idx) => routes[idx].textContent);
+      expect(routesList).eql(expectedRoutes);
+    });
   });
 
   it('should remove route', () => {
